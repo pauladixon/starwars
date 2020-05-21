@@ -1,16 +1,31 @@
 import React from 'react'
 import './App.css'
-import Starship from './Starship'
+import getAllStarships from './services/sw-api'
+import Starship from './components/Starship'
 
-function App() {
-  return (
-    <div className="App">
-      <header>
-        <Starship/>
-        <Starship/>
-      </header>
-    </div>
-  )
+class App extends React.Component {
+  state = {
+    allStarships: null
+  }
+
+  async componentDidMount() {
+    const foundStarships = await getAllStarships()
+    this.setState({
+      allStarships: foundStarships
+    })
+  }
+
+  render() {
+    const starshipComponents = this.state.allStarships ? this.state.allStarships.map((ship)=>{
+      return <Starship shipData={ship}/>
+    }) : null
+
+    return (
+      <div>
+          {starshipComponents}
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
