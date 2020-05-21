@@ -1,28 +1,49 @@
 import React from 'react'
 import './App.css'
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import getAllStarships from './services/sw-api'
 import Starship from './components/Starship'
+import StarshipPage from './pages/StarshipPage/StarshipPage'
 
 class App extends React.Component {
   state = {
-    allStarships: null
+    starships: []
+  }
+
+  getStarship = (index) => {
+    return this.state.starships[index]
   }
 
   async componentDidMount() {
     const foundStarships = await getAllStarships()
     this.setState({
-      allStarships: foundStarships
+      starships: foundStarships
     })
   }
 
   render() {
-    const starshipComponents = this.state.allStarships ? this.state.allStarships.map((ship)=>{
-      return <Starship shipData={ship}/>
-    }) : null
-
     return (
-      <div>
-          {starshipComponents}
+      <div className='App'>
+        <header>STAR WARS STARSHIPS</header>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path='/' render={() =>
+              <div>
+                {this.state.starships.map((starship, index) =>
+                  <Link to={`/starships/${index}`} key={starship.name}>
+                    <div className="ship"><Starship shipData={starship}/></div>
+                  </Link>
+                )}
+              </div>
+            }/>
+            <Route path='/starships/:index' render={(props) =>
+              <StarshipPage
+                {...props}
+                getStarship={this.getStarship}
+              />
+            }/>
+          </Switch>
+        </BrowserRouter>
       </div>
     )
   }
