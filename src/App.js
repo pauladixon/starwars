@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
-import getAllStarships from './services/sw-api'
+import { getAllStarships } from './services/sw-api';
 import Starship from './components/Starship'
 import StarshipPage from './pages/StarshipPage/StarshipPage'
 
@@ -24,17 +24,17 @@ class App extends React.Component {
   render() {
     return (
       <div className='App'>
-        <header>STAR WARS STARSHIPS</header>
+        <header><h3>Star Wars Starhips</h3></header>
         <BrowserRouter>
           <Switch>
             <Route exact path='/' render={() =>
-              <div>
+              <section className='ships'>
                 {this.state.starships.map((starship, index) =>
                   <Link to={`/starships/${index}`} key={starship.name}>
                     <div className="ship"><Starship shipData={starship}/></div>
                   </Link>
                 )}
-              </div>
+              </section>
             }/>
             <Route path='/starships/:index' render={(props) =>
               <StarshipPage

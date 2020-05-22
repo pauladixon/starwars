@@ -6,18 +6,17 @@ const StarshipPage = (props) => {
   
   const starship = props.getStarship(props.match.params.idx);
   
+  console.log(starship)
   return (
-    <div className='StarshipPage'>
+    <div className='starship-page'>
       {starship ?
-        <div className='StarshipPage-starship'>
-          <span>NAME:</span>
-          <span>{starship.name}</span>
-          <span>MODEL:</span>
-          <span>{starship.model}</span>
-          <Link to='/'>RETURN</Link>
-        </div>
+        <section className='starship'>
+          <div className='line'>Name: {starship.name}</div>
+          <div className='line'>Model: {starship.model}</div>
+          <Link to='/'>←</Link>
+        </section>
         :
-        <h3>Loading...</h3>
+        <>...</>
       }
     </div>
   );
