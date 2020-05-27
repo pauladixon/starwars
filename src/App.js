@@ -1,17 +1,18 @@
-import React from 'react'
-import './App.css'
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import './App.css';
+import { Route, Switch, Link, BrowserRouter } from 'react-router-dom';
 import { getAllStarships } from './services/sw-api';
 import Starship from './components/Starship'
-import StarshipPage from './pages/StarshipPage/StarshipPage'
+import StarshipPage from './pages/StarshipPage/StarshipPage';
 
-class App extends React.Component {
+class App extends Component {
+  
   state = {
     starships: []
-  }
+  };
 
-  getStarship = (index) => {
-    return this.state.starships[index]
+  getStarship = (idx) => {
+    return this.state.starships[idx];
   }
 
   async componentDidMount() {
@@ -20,23 +21,23 @@ class App extends React.Component {
       starships: foundStarships
     })
   }
-
+  
   render() {
     return (
-      <div className='App'>
-        <header><h3>Star Wars Starhips</h3></header>
+      <div className="App">
+        <header className="App-header">STAR WARS STARSHIPS</header>
         <BrowserRouter>
           <Switch>
-            <Route exact path='/' render={() =>
-              <section className='ships'>
-                {this.state.starships.map((starship, index) =>
-                  <Link to={`/starships/${index}`} key={starship.name}>
+            <Route exact path='/' render={() => 
+              <section>
+                {this.state.starships.map((starship, idx) => 
+                  <Link to={`/starships/${idx}`} key={starship.name}>
                     <div className="ship"><Starship shipData={starship}/></div>
                   </Link>
                 )}
               </section>
             }/>
-            <Route path='/starships/:index' render={(props) =>
+            <Route path='/starships/:idx' render={(props) => 
               <StarshipPage
                 {...props}
                 getStarship={this.getStarship}
@@ -45,8 +46,9 @@ class App extends React.Component {
           </Switch>
         </BrowserRouter>
       </div>
-    )
+    );
   }
+
 }
 
-export default App
+export default App;
